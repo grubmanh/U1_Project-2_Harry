@@ -6,6 +6,7 @@ int posY;
 int posZ=0;
 float r = 0;
 float e;
+int mouseTracker = 0;
 
 
 void setup()
@@ -41,6 +42,7 @@ void draw()
       r+=1;
       rotateY(radians(r%360));
     }
+
   box(10);
   popMatrix();
 }
