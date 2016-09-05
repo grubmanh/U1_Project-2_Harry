@@ -7,6 +7,8 @@ int posZ=0;
 float r = 0;
 float e;
 int mouseTracker = 0;
+int deltaX, deltaY, initialX, initialY, finalX, finalY;
+int freakoutBlocker = 10;
 
 
 void setup()
@@ -33,16 +35,10 @@ void draw()
       posZ -= 10;
       e = 0;
     }
-    if (mousePressed == true)
-    {
-       println(mouseX + " : " + pmouseX);
-    }
-    if ( key == 'r')
-    {
-      r+=1;
-      rotateY(radians(r%360));
-    }
-
+      float rotatione = map(mouseX, 0, width, 0, TWO_PI);
+      rotateY(rotatione);
+      float rotationee = map(mouseY, 0, height, 0, PI);
+      rotateX(rotationee);
   box(10);
   popMatrix();
 }
