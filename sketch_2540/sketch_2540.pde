@@ -1,62 +1,44 @@
-// import peasy.*;
+import peasy.*;
+int[] heightsaver = new int[100000];
 
-// PeasyCam cam;
-int posX;
-int posY;
-int posZ=0;
-float r = 0;
-float e;
-int mouseTracker = 0;
-int deltaX, deltaY, initialX, initialY, finalX, finalY;
-int freakoutBlocker = 10;
-
+PeasyCam cam;
 
 void setup()
 {
-  size(300,500,P3D);
-  posX = width/2;
-  posY = height/2;
-  // cam = new PeasyCam();
+  fullScreen(P3D);
+  frameRate(1000);
+  cam = new PeasyCam(this, 100);
+  cam.setMinimumDistance(50);
+  cam.setMaximumDistance(500);
+  generateHeights(4, 20, 100);
 }
 
 void draw()
 {
-  background(123);
-  pushMatrix();
-  translate(posX, posY, posZ);
-  mouseWheel();
-    if (e > 0)
+  background(0);
+  generateWorld(20, 100);
+}
+
+void generateHeights(int maxHeight, int worldWidth, int worldDepth)
+{
+  for (int heighterizer = 0; heighterizer < ((worldWidth * worldDepth)-1); heighterizer++)
+  {
+    heightsaver [heighterizer] = (int) random(0, maxHeight);
+  }
+}
+
+void generateWorld(int worldWidth, int worldDepth)
+{
+  for (int generateWidth = 1; generateWidth < worldWidth; generateWidth++)
+  {
+    for (int generateDepth = 1; generateDepth < worldDepth; generateDepth++)
     {
-      posZ += 10;
-      e = 0;
+      int heightindex = (generateWidth * generateDepth) - ((worldDepth * (generateWidth - 1)) - 1);
+      println(heightindex);
+      pushMatrix();
+      translate(generateWidth, generateDepth, 0);
+      box(1, 1, random(0, heightsaver [heightindex]));
+      popMatrix();
     }
-    if ( e < 0)
-    {
-      posZ -= 10;
-      e = 0;
-    }
-      float rotatione = map(mouseX, 0, width, 0, TWO_PI);
-      rotateY(rotatione);
-      float rotationee = map(mouseY, 0, height, 0, PI);
-      rotateX(rotationee);
-  box(10);
-  popMatrix();
-}
-
-void keyPressed()
-{
-
-}
-
-void mouseWheel(MouseEvent event) {
-  e = event.getCount();
-}
-
-int deltaX(int initialX, int finalX)
-{
-  return finalX - initialX;
-}
-int deltaY(int initialY, int finalY)
-{
-  return finalY - initialY;
+  }
 }

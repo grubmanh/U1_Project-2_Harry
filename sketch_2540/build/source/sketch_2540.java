@@ -3,6 +3,8 @@ import processing.data.*;
 import processing.event.*; 
 import processing.opengl.*; 
 
+import peasy.*; 
+
 import java.util.HashMap; 
 import java.util.ArrayList; 
 import java.io.File; 
@@ -14,9 +16,10 @@ import java.io.IOException;
 
 public class sketch_2540 extends PApplet {
 
-// import peasy.*;
 
-// PeasyCam cam;
+
+PeasyCam cam;
+
 int posX;
 int posY;
 int posZ=0;
@@ -30,33 +33,43 @@ int freakoutBlocker = 10;
 public void setup()
 {
   
+  frameRate(1000);
+  cam = new PeasyCam(this, 100);
+  cam.setMinimumDistance(50);
+  cam.setMaximumDistance(500);
   posX = width/2;
   posY = height/2;
-  // cam = new PeasyCam();
+  generateWorld(100, 100, 100);
 }
 
 public void draw()
 {
-  background(123);
-  pushMatrix();
-  translate(posX, posY, posZ);
-  mouseWheel();
-    if (e > 0)
-    {
-      posZ += 10;
-      e = 0;
-    }
-    if ( e < 0)
-    {
-      posZ -= 10;
-      e = 0;
-    }
-      float rotatione = map(mouseX, 0, width, 0, TWO_PI);
-      rotateY(rotatione);
-      float rotationee = map(mouseY, 0, height, 0, PI);
-      rotateX(rotationee);
-  box(10);
-  popMatrix();
+  background(255, 255, 255);
+  generateWorld(100, 100, 100);
+  // background(123);
+  // pushMatrix();
+  // translate(posX, posY, posZ);
+  // mouseWheel();
+  //   if (e > 0)
+  //   {
+  //     posZ += 10;
+  //     e = 0;
+  //   }
+  //   if ( e < 0)
+  //   {
+  //     posZ -= 10;
+  //     e = 0;
+  //   }
+  //   if (mousePressed == true)
+  //   {
+  //
+  //     float rotatione = map(mouseX, 0, width, 0, TWO_PI);
+  //     rotateY(rotatione);
+  //     float rotationee = map(mouseY, 0, height, 0, PI);
+  //     rotateX(rotationee);
+  //   }
+  // box(10);
+  // popMatrix();
 }
 
 public void keyPressed()
@@ -76,7 +89,21 @@ public int deltaY(int initialY, int finalY)
 {
   return finalY - initialY;
 }
-  public void settings() {  size(300,500,P3D); }
+
+public void generateWorld(int maxHeight, int worldWidth, int worldDepth)
+{
+  for (int generateWidth = 1; generateWidth < worldWidth; generateWidth++)
+  {
+    for (int generateDepth = 1; generateDepth < worldDepth; generateDepth++)
+    {
+      pushMatrix();
+      box(1, 1, random(1,maxHeight));
+      translate(generateWidth, generateDepth, 0);
+      popMatrix();
+    }
+  }
+}
+  public void settings() {  fullScreen(P3D); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "sketch_2540" };
     if (passedArgs != null) {
